@@ -486,15 +486,17 @@ export class MgtPersonCard extends MgtTemplatedComponent {
       : html``;
     return html`
       <div class="root" dir=${this.direction}>
-        ${navigationTemplate}
-        <div class="close-card-container">
-          <fluent-button appearance="lightweight" class="close-button" @click=${() => this.closeCard()} >
-              ${getSvg(SvgIcon.Close)}
-          </fluent-button>
+        <div class=${this._smallView ? 'small' : ''}>
+          ${navigationTemplate}
+          <div class="close-card-container">
+            <fluent-button appearance="lightweight" class="close-button" @click=${() => this.closeCard()} >
+                ${getSvg(SvgIcon.Close)}
+            </fluent-button>
+          </div>
+          <div class="person-details-container">${personDetailsTemplate}</div>
+          <div class="expanded-details-container">${expandedDetailsTemplate}</div>
+          ${tabLocker}
         </div>
-        <div class="person-details-container">${personDetailsTemplate}</div>
-        <div class="expanded-details-container">${expandedDetailsTemplate}</div>
-        ${tabLocker}
       </div>
     `;
   }
@@ -712,7 +714,8 @@ export class MgtPersonCard extends MgtTemplatedComponent {
       <div class="section-nav">
         ${sectionNavTemplate}
       </div>
-      <div class="section-host" @wheel=${(e: WheelEvent) => this.handleSectionScroll(e)} tabindex=0>
+      <div class="section-host ${this._smallView ? 'small' : ''}" @wheel=${(e: WheelEvent) =>
+      this.handleSectionScroll(e)} tabindex=0>
       </div>
     `;
   }
@@ -793,7 +796,7 @@ export class MgtPersonCard extends MgtTemplatedComponent {
       (section: BasePersonCardSection) => html`
         <div class="section">
           <div class="section__header">
-            <div class="section__title">${section.displayName}</div>
+            <div class="section__title" tabindex=0>${section.displayName}</div>
               <fluent-button appearance="lightweight" class="section__show-more" @click=${() =>
                 this.updateCurrentSection(section)}>
                 ${this.strings.showMoreSectionButton}
